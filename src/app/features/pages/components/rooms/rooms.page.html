@@ -1,0 +1,106 @@
+<section class="min-h-screen bg-[#eaf1fb] px-4 py-10 sm:px-8 lg:px-16 xl:px-24 ">
+  <div class="mx-auto max-w-5xl mt-6">
+    <!-- Header -->
+    <p class="text-2xl text-[#023A5D] font-serif font-medium sm:text-3xl maintext mt-4">Our Rooms</p>
+    <h2 class="mt-1 text-2xl text-[#023A5D] font-serif font-medium sm:text-3xl maintext ">
+      Find the perfect room for your stay.
+    </h2>
+
+    <!-- Error state -->
+    @if (error()) {
+      <div
+        class="mt-8 flex flex-col items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-5 text-sm text-red-700 sm:flex-row sm:items-center sm:justify-between"
+        role="alert"
+      >
+        <p class="font-medium">{{ error() }}</p>
+        <!-- <button
+          type="button"
+          (click)="loadRooms()"
+          class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-200"
+        >
+          Try again
+        </button> -->
+      </div>
+    }
+
+    <!-- Loading skeleton -->
+    @if (isLoading()||error()) {
+      <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="animate-pulse overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="h-48 w-full bg-slate-200"></div>
+            <div class="space-y-3 p-5">
+              <div class="h-4 w-2/3 rounded bg-slate-200"></div>
+              <div class="h-3 w-1/2 rounded bg-slate-200"></div>
+              <div class="h-3 w-full rounded bg-slate-200"></div>
+              <div class="h-3 w-5/6 rounded bg-slate-200"></div>
+              <div class="mt-4 flex items-center justify-between">
+                <div class="h-6 w-20 rounded-full bg-slate-200"></div>
+                <div class="h-8 w-20 rounded-full bg-slate-200"></div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Rooms grid -->
+    @else if (!isLoading() && !error()) {
+      <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        @for (room of rooms(); track $index) {
+          <article class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+            <img
+              src="/1.jpg"
+              class="h-48 w-full object-cover"
+            />
+
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-lg font-bold text-[#0f2c4c]">Room Number {{room.roomNumber}} </h3>
+
+              <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
+                <span class="inline-flex items-center gap-1">
+                  <!-- <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="icons['guests']" />
+                  </svg> -->
+                  {{ room.roomCapacity }} Guests
+                </span>
+                <!-- <span class="inline-flex items-center gap-1">
+                 room.bedType
+                </span>
+                <span class="inline-flex items-center gap-1">
+                  room.view
+                </span> -->
+              </div>
+
+              <!-- <p class="mt-4 text-sm font-semibold text-slate-800">Amenities</p> -->
+              <ul class="mt-2 space-y-1.5">
+                <!-- @for (amenity of room.amenities; track amenity.label) {
+                  <li class="flex items-center gap-2 text-sm text-slate-600">
+                    <svg class="h-4 w-4 shrink-0 text-sky-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="icons[amenity.icon]" />
+                    </svg>
+                    {{ amenity.label }}
+                  </li>
+                } -->
+              </ul>
+
+              <div class="mt-5 flex flex-1 items-end justify-between">
+                <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-[#0f2c4c]">
+                  {{ '$' + room.price }} / night
+                </span>
+                <button
+                  type="button"
+                  (click)="onSelect(room)"
+                  
+                  class="rounded-full bg-sky-50 px-5 py-2 text-sm font-semibold text-[#0f2c4c] transition hover:bg-[#0f2c4c] hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-200"
+                >
+                  Select
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

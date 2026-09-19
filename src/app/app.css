@@ -1,0 +1,21 @@
+
+
+
+@import "tailwindcss";
+
+@source "../node_modules/flowbite-datepicker";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+.bgr{
+  background-color:#F4F4F5;
+}
+.maintext{
+  font-family: Inria Serif;
+  color: #023A5D;
+}
+.maintext2{
+  font-family: Inter;
+  color: #023A5D;
+}

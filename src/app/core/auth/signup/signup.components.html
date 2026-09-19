@@ -1,0 +1,371 @@
+<div class="relative flex min-h-screen w-full items-center justify-end overflow-hidden  px-4 py-10 sm:px-8 lg:px-16 xl:px-24 ">
+      <div class="absolute inset-0 -z-10">
+        <img
+          src="/hero.jpg"
+          alt="Hotel poolside at dusk"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-slate-900/30"></div>
+      </div>
+
+      <div class=" w-5xl p-8 bg-slate-100/70 rounded-2xl bg-blur-md shadow-2xl border border-white/40 sm:p-10">
+        <h1 class="text-2xl text-[#023A5D] font-serif font-medium sm:text-3xl maintext">
+          Join Nile View Suites today
+        </h1>
+        <p class="mt-2 text-sm font-medium sm:text-base text-[#023A5D] maintext2">
+          Create Your Account
+        </p>
+        <form class=" mt-6" [formGroup]="signupform" (ngSubmit)="signup()" >
+          <div class="grid  sm:grid-cols-1 md:grid-cols-2 gap-4">
+            @let fnamecontrol=signupform.get('first_name');
+           <div class="">
+            <label
+              for="fname"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              First Name
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <i class="fa-regular fa-user"></i>
+              </div>
+              <input
+                id="fname"
+                type="text"
+                formControlName="first_name"
+                placeholder="Enter your first name"
+                [attr.aria-invalid]="fnamecontrol?.invalid && fnamecontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                fnamecontrol?.invalid && fnamecontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+            </div>
+            @if (signupform.get('first_name')?.errors && signupform.get('first_name')?.touched) {
+              @if(fnamecontrol?.getError('required'))
+              {
+                <p class="mt-1 text-xs font-medium text-red-500">First name is required.</p>
+              }
+
+            }
+          </div>
+          @let lnamecontrol=signupform.get('last_name');
+           <div class="">
+            <label
+              for="lname"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              Last Name
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <i class="fa-regular fa-user"></i>
+              </div>
+              <input
+                id="lname"
+                type="text"
+                formControlName="last_name"
+                placeholder="Enter your last name"
+                [attr.aria-invalid]="lnamecontrol?.invalid && lnamecontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                lnamecontrol?.invalid && lnamecontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+            </div>
+
+            @if (signupform.get('last_name')?.errors && signupform.get('last_name')?.touched) {
+              @if(lnamecontrol?.getError('required'))
+              {
+                <p class="mt-1 text-xs font-medium text-red-500">Last name is required.</p>
+              }
+
+            }
+          </div>
+          @let emailcontrol=signupform.get('email');
+            <div class="">
+            <label
+              for="email"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              Email
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 6.75c0-.414.336-.75.75-.75h18a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H3a.75.75 0 01-.75-.75V6.75z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.4 6.4l9.6 7.2 9.6-7.2"
+                  />
+                </svg>
+              </div>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                [attr.aria-invalid]="emailcontrol?.invalid && emailcontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                emailcontrol?.invalid && emailcontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+            </div>
+            @if (emailcontrol?.getError('required')&&emailcontrol?.getError('touched')) {
+              <p class="mt-1 text-xs font-medium text-red-600">
+                {{ emailErrorMessage() }}
+              </p>
+            }
+            @if (signupform.get('email')?.errors && signupform.get('email')?.touched) {
+              @if(emailcontrol?.getError('required'))
+              {
+                <p class="mt-1 text-xs font-medium text-red-500">Email is required.</p>
+              }@else {
+                  <p class="mt-1 text-xs font-medium text-red-500">Invalid Email.</p>
+              }
+
+            }
+          </div>
+          @let phonecontrol=signupform.get('phone');
+            <div class="">
+            <label
+              for="phone"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              Phone Number
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <input
+                id="phone"
+                type="tel"
+                formControlName="phone"
+                placeholder="Enter your phone"
+                 [attr.aria-invalid]="phonecontrol?.invalid && phonecontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                phonecontrol?.invalid && phonecontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+            </div>
+            @if (signupform.get('phone')?.errors && signupform.get('phone')?.touched) {
+              @if(phonecontrol?.getError('required'))
+              {
+                <p class="mt-1 text-xs font-medium text-red-500">Phone number is required.</p>
+              }@else {
+                  <p class="mt-1 text-xs font-medium text-red-500">Invalid Phone number.</p>
+              }
+
+            }
+          </div>
+          @let passwordcontrol=signupform.get('password');
+           <div>
+            <label
+              for="password"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              Password
+            </label>
+            <div class="relative">
+              <div
+                class=" absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+              </div>
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                [attr.aria-invalid]="passwordcontrol?.invalid && passwordcontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-10 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                passwordcontrol?.invalid && passwordcontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-500 hover:text-slate-700"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              >
+                @if (showPassword()) {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5 1.394 0 2.72-.27 3.938-.76M6.228 6.228A10.451 10.451 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                } @else {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                }
+              </button>
+            </div>
+            @if (signupform.get('password')?.errors && signupform.get('password')?.touched) {
+              @if(passwordcontrol?.getError('required'))
+              {
+                <p class="mt-1 text-xs font-medium text-red-500">Password is required.</p>
+              }@else {
+                  <p class="mt-1 text-xs font-medium text-red-500">Invalid password.</p>
+                  <p class="mt-1 text-xs font-medium text-red-500">at least one lowercase, one uppercase, one digit, one symbol from @$!%*?&</p>
+              }
+
+            }
+          </div>
+          @let rpasswordcontrol=signupform.get('repassword');
+           <div>
+            <label
+              for="rpassword"
+              class="mb-1.5 block text-sm font-semibold text-[#023A5D]"
+            >
+              Confirm Password
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+              </div>
+              <input
+                id="rpassword"
+                [type]="rshowPassword() ? 'text' : 'password'"
+                formControlName="repassword"
+                placeholder="Enter your Confirm Password"
+                autocomplete="current-password"
+                 [attr.aria-invalid]="(rpasswordcontrol?.invalid || signupform.hasError('mismatch')) && rpasswordcontrol?.touched"
+              class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-10 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+              [ngClass]="
+                (rpasswordcontrol?.invalid || signupform.hasError('mismatch')) && rpasswordcontrol?.touched
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                  : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+              "
+              />
+              <button
+                type="button"
+                (click)="rtogglePasswordVisibility()"
+                class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-500 hover:text-slate-700"
+                [attr.aria-label]="rshowPassword() ? 'Hide password' : 'Show password'"
+              >
+                @if (rshowPassword()) {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5 1.394 0 2.72-.27 3.938-.76M6.228 6.228A10.451 10.451 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                } @else {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                }
+              </button>
+            </div>
+            @if ((rpasswordcontrol?.errors || signupform.getError('mismatch')) && rpasswordcontrol?.touched) {
+                @if (rpasswordcontrol?.getError('required')) {
+                    <p class="mt-1 text-xs font-medium text-red-500">Confirm Password is required.</p>}
+                @else if(signupform.getError('mismatch')){
+                   <p class="mt-1 text-xs font-medium text-red-500">Confirm Password not match Password .</p>
+                }
+            }
+          </div>
+          </div>
+
+         <button
+  type="submit"
+  [disabled]="isloading()"
+  class="flex w-full mt-5 items-center justify-center rounded-lg bg-[#0f2c4c] px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-70"
+>
+        @if (isloading()===true) {
+          <svg
+            class="mr-2 h-4 w-4 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
+          </svg>
+          Creating account...
+        } @else {
+          Create Account
+        }
+      </button>
+        </form>
+        <p class="mt-6 text-sm font-medium text-slate-700 dark:text-slate-400">Already have an account?</p>
+    <button
+      type="button"
+      (click)="onLogin()"
+      class="mt-2 rounded-lg bg-[#0f2c4c] px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300 dark:focus:ring-sky-500/40"
+    >
+      Sign in
+    </button>
+      </div>
+
+</div>
+

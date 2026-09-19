@@ -1,0 +1,151 @@
+<div class="bg-clip-padding bgl min-h-[100vh]">
+  <!-- Container with flexible height & background cover -->
+  <div class="relative flex min-h-[110vh] md:min-h-[90vh] flex-col justify-between  bg-cover bg-center bg-no-repeat p-4 sm:pt-20 lg:p-10 pt-20 gap-45">
+
+    <!-- Optional dark overlay for visual contrast -->
+    <!-- <div class="absolute inset-0 bg-black/30 pointer-events-none"></div> -->
+
+    <!-- Floating Text Card -->
+    <div class="absolute left-2 sm:top-20 md:mt-30 md:top-15 md:left-5 z-10 w-full max-w-[95%] sm:max-w-md md:max-w-[22%] lg:max-w-[25%] rounded-2xl md:rounded-none bg-white/95 p-6 sm:p-5 shadow-2xl backdrop-blur-sm transition-all">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-zinc-900 mb-3 leading-tight">
+        Experience Luxury by the Nile
+      </h1>
+      <p class="text-sm sm:text-base md:text-lg text-zinc-600 leading-relaxed">
+        A peaceful riverside retreat with elegant suites, exceptional hospitality, and unforgettable views.
+      </p>
+    </div>
+
+    <!-- Responsive Search Bar at Bottom -->
+
+<div class="absolute bottom-5 sm:bottom-25 md:bottom-15 left-[5%] md:left-[25%] w-[92%] sm:w-[85%] md:w-[70%] lg:w-[55%] max-w-3xl mt-3">
+  <div
+    class="flex flex-col gap-1 rounded-2xl bg-white p-3 shadow-xl sm:flex-row sm:items-center sm:gap-1 sm:rounded-full sm:p-3 sm:px-6 sm:py-3 md:gap-2 md:px-8 md:py-4"
+  >
+    <!-- Check in -->
+    <div class="relative w-full border-t border-slate-100 pt-2 first:border-0 first:pt-0 sm:w-auto sm:flex-1 sm:border-0 sm:pt-0">
+      <button
+        type="button"
+        (click)="togglePanel('checkIn')"
+        class="flex w-full flex-col items-start rounded-lg px-2 py-1 text-left transition hover:bg-slate-50"
+      >
+        <span class="text-sm font-bold text-[#0f2c4c] sm:text-base">Check in</span>
+        <span class="text-xs text-slate-500 sm:text-sm">{{ checkInLabel() }}</span>
+      </button>
+
+      @if (openPanel() === 'checkIn') {
+        <div class="absolute left-0 top-full z-20 mt-2 w-full rounded-lg border border-slate-200 bg-white p-4 shadow-lg sm:mt-3 sm:w-56">
+          <label for="check-in-date" class="mb-1.5 block text-xs font-semibold text-slate-600">
+            Check-in date
+          </label>
+          <input
+            id="check-in-date"
+            type="date"
+            [ngModel]="checkIn()"
+            (ngModelChange)="checkIn.set($event)"
+            class="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+          />
+        </div>
+      }
+    </div>
+
+    <span class="hidden h-8 w-px shrink-0 bg-slate-200 sm:block"></span>
+
+    <!-- Check out -->
+    <div class="relative w-full border-t border-slate-100 pt-2 first:border-0 first:pt-0 sm:w-auto sm:flex-1 sm:border-0 sm:pt-0">
+      <button
+        type="button"
+        (click)="togglePanel('checkOut')"
+        class="flex w-full flex-col items-start rounded-lg px-2 py-1 text-left transition hover:bg-slate-50"
+      >
+        <span class="text-sm font-bold text-[#0f2c4c] sm:text-base">Check out</span>
+        <span class="text-xs text-slate-500 sm:text-sm">{{ checkOutLabel() }}</span>
+      </button>
+
+      @if (openPanel() === 'checkOut') {
+        <div class="absolute left-0 top-full z-20 mt-2 w-full rounded-lg border border-slate-200 bg-white p-4 shadow-lg sm:mt-3 sm:w-56">
+          <label for="check-out-date" class="mb-1.5 block text-xs font-semibold text-slate-600">
+            Check-out date
+          </label>
+          <input
+            id="check-out-date"
+            type="date"
+            [ngModel]="checkOut()"
+            (ngModelChange)="checkOut.set($event)"
+            [min]="checkIn()"
+            class="w-full rounded-md border border-slate-300 px-2 py-1.5 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+          />
+        </div>
+      }
+    </div>
+
+    <span class="hidden h-8 w-px shrink-0 bg-slate-200 sm:block"></span>
+
+    <!-- Guests -->
+    <div class="relative w-full border-t border-slate-100 pt-2 first:border-0 first:pt-0 sm:w-auto sm:flex-1 sm:border-0 sm:pt-0">
+      <button
+        type="button"
+        (click)="togglePanel('guests')"
+        class="flex w-full flex-col items-start rounded-lg px-2 py-1 text-left transition hover:bg-slate-50"
+      >
+        <span class="text-sm font-bold text-[#0f2c4c] sm:text-base">Guests</span>
+        <span class="text-xs text-slate-500 sm:text-sm">{{ guestsLabel() }}</span>
+      </button>
+
+      @if (openPanel() === 'guests') {
+        <div class="absolute left-0 top-full z-20 mt-2 w-full rounded-lg border border-slate-200 bg-white p-4 shadow-lg sm:mt-3 sm:w-48">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-slate-700">Guests</span>
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                (click)="decrementGuests()"
+                [disabled]="!guests() || guests() === 1"
+                class="flex h-7 w-7 items-center justify-center rounded-full border border-slate-300 text-slate-600 transition hover:border-[#0f2c4c] hover:text-[#0f2c4c] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                &minus;
+              </button>
+              <span class="w-4 text-center text-sm font-semibold text-slate-800">{{ guests() ?? 0 }}</span>
+              <button
+                type="button"
+                (click)="incrementGuests()"
+                [disabled]="guests() === 10"
+                class="flex h-7 w-7 items-center justify-center rounded-full border border-slate-300 text-slate-600 transition hover:border-[#0f2c4c] hover:text-[#0f2c4c] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <span class="hidden h-8 w-px shrink-0 bg-slate-200 sm:block"></span>
+
+    <!-- Search -->
+    <button
+      type="button"
+      (click)="onSearch()"
+      [disabled]="isSearching()"
+      class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#0f2c4c] transition hover:bg-sky-50 focus:outline-none focus:ring-4 text-[#0f2c4c] focus:ring-sky-200 disabled:cursor-not-allowed disabled:opacity-60"
+      aria-label="Search rooms"
+    >
+      @if (isSearching()) {
+        <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+      } @else {
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.35-5.15a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
+        </svg>
+      }
+    </button>
+  </div>
+
+  @if (searchError()) {
+    <p class="mt-2 text-center text-sm font-medium text-red-600 sm:text-left">{{ searchError() }}</p>
+  }
+  </div>
+</div>
+
+</div>

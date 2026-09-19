@@ -1,0 +1,265 @@
+ <div
+      class="relative flex min-h-screen w-full items-center justify-end overflow-hidden  px-4 py-10 sm:px-8 lg:px-16 xl:px-24"
+    >
+      <!-- Background image -->
+      <div class="absolute inset-0 -z-10">
+        <img
+          src="/hero.jpg"
+          alt="Hotel poolside at dusk"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-slate-900/30"></div>
+      </div>
+
+      <!-- Login card -->
+      <div
+        class="w-full max-w-md rounded-2xl border border-white/40 bg-slate-100/70 p-8 shadow-2xl backdrop-blur-md sm:p-10"
+      >
+        <h1 class="text-2xl font-serif font-semibold text-slate-800 sm:text-3xl">
+          Welcome Back
+        </h1>
+        <p class="mt-2 text-sm font-medium text-slate-700 sm:text-base">
+          Sign in to manage your bookings.
+        </p>
+
+        <form [formGroup]="loginform" (ngSubmit)="onSubmit()" class="mt-6 space-y-5" novalidate>
+          <!-- Email -->
+          <div>
+            <label
+              for="email"
+              class="mb-1.5 block text-sm font-semibold text-slate-800"
+            >
+              Email
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 6.75c0-.414.336-.75.75-.75h18a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H3a.75.75 0 01-.75-.75V6.75z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.4 6.4l9.6 7.2 9.6-7.2"
+                  />
+                </svg>
+              </div>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                [attr.aria-invalid]="isInvalid('email')"
+                class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                [ngClass]="
+                  isInvalid('email')
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                    : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                "
+              />
+            </div>
+            @if (isInvalid('email')) {
+              <p class="mt-1 text-xs font-medium text-red-600">
+                {{ emailErrorMessage() }}
+              </p>
+            }
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label
+              for="password"
+              class="mb-1.5 block text-sm font-semibold text-slate-800"
+            >
+              Password
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+              </div>
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                [attr.aria-invalid]="isInvalid('password')"
+                class="block w-full rounded-lg border bg-white py-2.5 pl-10 pr-10 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                [ngClass]="
+                  isInvalid('password')
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                    : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                "
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-500 hover:text-slate-700"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              >
+                @if (showPassword()) {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12c1.292 4.338 5.31 7.5 10.066 7.5 1.394 0 2.72-.27 3.938-.76M6.228 6.228A10.451 10.451 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                  </svg>
+                } @else {
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                }
+              </button>
+            </div>
+            @if (isInvalid('password')) {
+              <p class="mt-1 text-xs font-medium text-red-600">
+                {{ passwordErrorMessage() }}
+              </p>
+            }
+          </div>
+
+          <!-- Remember me + Forgot password -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                formControlName="rememberMe"
+                class="h-4 w-4 rounded border-slate-400 text-sky-700 focus:ring-2 focus:ring-sky-300"
+              />
+              <label for="rememberMe" class="ml-2 text-sm font-medium text-slate-700">
+                Remember me
+              </label>
+            </div>
+            <a
+              href="#"
+              class="text-sm font-medium text-slate-800 hover:text-sky-700 hover:underline"
+              (click)="onForgotPassword($event)"
+            >
+              Forget password?
+            </a>
+          </div>
+
+          <!-- Server-side / simulated error -->
+          @if (formError()) {
+            <div
+              class="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-700"
+              role="alert"
+            >
+              {{ formError() }}
+            </div>
+          }
+
+          <!-- Success message -->
+          @if (successMessage()) {
+            <div
+              class="rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-sm font-medium text-green-700"
+              role="status"
+            >
+              {{ successMessage() }}
+            </div>
+          }
+
+          <!-- Login button -->
+          <button
+            type="submit"
+            [disabled]="isLoading()"
+            class="flex w-full items-center justify-center rounded-lg bg-[#0f2c4c] px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            @if (isLoading()) {
+              <svg
+                class="mr-2 h-4 w-4 animate-spin text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+              Signing in...
+            } @else {
+              Login
+            }
+          </button>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-3">
+            <span class="h-px flex-1 bg-slate-400/60"></span>
+            <span class="text-sm font-medium text-slate-600">or</span>
+            <span class="h-px flex-1 bg-slate-400/60"></span>
+          </div>
+
+          <!-- Google button -->
+          <button
+            type="button"
+            (click)="onContinueWithGoogle()"
+            class="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 48 48">
+              <path
+                fill="#FFC107"
+                d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
+              />
+              <path
+                fill="#FF3D00"
+                d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"
+              />
+            </svg>
+            Continue with Google
+          </button>
+        </form>
+
+        <p class="mt-6 text-sm font-medium text-slate-700">
+          Don't have an account?
+        </p>
+        <button
+          type="button"
+          (click)="onSignUp()"
+          class="mt-2 rounded-lg bg-[#0f2c4c] px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300"
+        >
+          Sign up
+        </button>
+      </div>
+    </div>

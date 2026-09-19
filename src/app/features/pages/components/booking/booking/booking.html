@@ -1,0 +1,280 @@
+
+<div class="relative flex min-h-screen w-full items-center justify-center overflow-hidden  px-4 py-8 sm:px-8 md:py-12">
+  <!-- Background image -->
+  <div class="absolute inset-0 -z-10">
+    <img
+      src="/hero.jpg"
+      alt="Nile View Suites at dusk"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-slate-900/20"></div>
+  </div>
+
+  <!-- Booking form card -->
+  <div class="w-full max-w-4xl rounded-2xl border border-white/40 bg-slate-100/70 p-5 shadow-2xl backdrop-blur-md sm:p-8 md:p-10">
+    <h1 class="text-xl font-serif font-semibold text-slate-800 sm:text-2xl md:text-3xl">
+      Complete Your Booking
+    </h1>
+    <p class="mt-1.5 text-sm font-semibold text-slate-800 sm:text-base">
+      Review your details before confirming your reservation.
+    </p>
+
+    <form [formGroup]="bookingForm" (ngSubmit)="onConfirmBooking()" novalidate aria-label="Booking form">
+      <div class="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+        <!-- Left column: Your Stay + Price Summary -->
+        <div class="space-y-6">
+          <!-- Your Stay -->
+          <section>
+            <h2 class="text-lg font-serif font-semibold text-slate-800 sm:text-xl">Your Stay</h2>
+
+            <div class="mt-3 space-y-4">
+              <div>
+                <label for="roomName" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  Room Number {{room()?.roomNumber}}
+                </label>
+
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label for="checkIn" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                    Check-in
+                  </label>
+                  <input
+                    id="checkIn"
+                    type="date"
+                    formControlName="checkIn"
+                    [attr.aria-invalid]="isInvalid('checkIn')"
+                    [attr.aria-describedby]="isInvalid('checkIn') ? 'checkIn-error' : null"
+                    class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2"
+                    [ngClass]="
+                      isInvalid('checkIn')
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                        : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                    "
+                  />
+                  @if (isInvalid('checkIn')) {
+                    <p id="checkIn-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
+                      {{ checkInErrorMessage() }}
+                    </p>
+                  }
+                </div>
+
+                <div>
+                  <label for="checkOut" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                    Check-out
+                  </label>
+                  <input
+                    id="checkOut"
+                    type="date"
+                    formControlName="checkOut"
+                    [attr.min]="bookingForm.controls.checkIn.value"
+                    [attr.aria-invalid]="isInvalid('checkOut')"
+                    [attr.aria-describedby]="isInvalid('checkOut') ? 'checkOut-error' : null"
+                    class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2"
+                    [ngClass]="
+                      isInvalid('checkOut')
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                        : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                    "
+                  />
+                  @if (isInvalid('checkOut')) {
+                    <p id="checkOut-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
+                      {{ checkOutErrorMessage() }}
+                    </p>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <label for="guests" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  Guests {{room()?.roomCapacity}}
+                </label>
+
+              </div>
+            </div>
+          </section>
+
+          <!-- Price Summary -->
+          <section>
+            <h2 class="text-lg font-serif font-semibold text-slate-800 sm:text-xl">Price Summary</h2>
+
+            <div class="mt-3 space-y-4">
+              <div>
+                <label for="nightlyRate" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  Price per night {{room()?.price}}$
+                </label>
+              </div>
+
+              <!-- <div>
+                <label for="discount" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  Discount ($, optional)
+                </label>
+                <input
+                  id="discount"
+                  type="number"
+                  min="0"
+                  step="1"
+                  formControlName="discount"
+                  placeholder="0"
+                  class="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                />
+              </div> -->
+
+              <!-- Computed breakdown -->
+              <div class="space-y-2 border-t border-slate-400/40 pt-3 text-sm text-slate-700 sm:text-base">
+                <div class="flex items-center justify-between">
+                  <span>{{ nights() }} night{{ nights() === 1 ? '' : 's' }} subtotal</span>
+                  <span>${{ subtotal() }}</span>
+                </div>
+                @if (discountValue() > 0) {
+                  <div class="flex items-center justify-between text-red-600">
+                    <span>Discount</span>
+                    <span>-${{ discountValue() }}</span>
+                  </div>
+                }
+                <div class="flex items-center justify-between border-t border-slate-400/40 pt-2 font-semibold text-slate-900">
+                  <span>Total</span>
+                  <span>${{ total() }}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right column: Guest Information -->
+        <div>
+          <h2 class="text-lg font-serif font-semibold text-slate-800 sm:text-xl">Guest Information</h2>
+
+          <div class="mt-3 space-y-4">
+            <!-- Full Name -->
+            <div>
+              <label for="fullName" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                Full Name
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                formControlName="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                [attr.aria-invalid]="isInvalid('fullName')"
+                [attr.aria-describedby]="isInvalid('fullName') ? 'fullName-error' : null"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                [ngClass]="
+                  isInvalid('fullName')
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                    : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                "
+              />
+              @if (isInvalid('fullName')) {
+                <p id="fullName-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
+                  {{ fullNameErrorMessage() }}
+                </p>
+              }
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="guest-email" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                Email
+              </label>
+              <input
+                id="guest-email"
+                type="email"
+                formControlName="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                [attr.aria-invalid]="isInvalid('email')"
+                [attr.aria-describedby]="isInvalid('email') ? 'guest-email-error' : null"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                [ngClass]="
+                  isInvalid('email')
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                    : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                "
+              />
+              @if (isInvalid('email')) {
+                <p id="guest-email-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
+                  {{ emailErrorMessage() }}
+                </p>
+              }
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label for="guest-phone" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                Phone
+              </label>
+              <input
+                id="guest-phone"
+                type="tel"
+                formControlName="phone"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                [attr.aria-invalid]="isInvalid('phone')"
+                [attr.aria-describedby]="isInvalid('phone') ? 'guest-phone-error' : null"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                [ngClass]="
+                  isInvalid('phone')
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                    : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
+                "
+              />
+              @if (isInvalid('phone')) {
+                <p id="guest-phone-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
+                  {{ phoneErrorMessage() }}
+                </p>
+              }
+            </div>
+
+            <!-- Special Requests -->
+            <div>
+              <label for="specialRequests" class="mb-1.5 block text-base font-serif font-semibold text-slate-800">
+                Special Requests <span class="text-sm font-sans font-normal text-slate-600">(Optional)</span>
+              </label>
+              <textarea
+                id="specialRequests"
+                formControlName="specialRequests"
+                rows="2"
+                placeholder="Anything you'd like us to know?"
+                class="block w-full resize-none rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+              ></textarea>
+            </div>
+
+            <!-- Server-side / simulated error -->
+            @if (formError()) {
+              <div class="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-700" role="alert">
+                {{ formError() }}
+              </div>
+            }
+
+            <!-- Success message -->
+            @if (successMessage()) {
+              <div class="rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-sm font-medium text-green-700" role="status">
+                {{ successMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Booking button spans full width beneath both columns -->
+      <button
+        type="submit"
+        [disabled]="isLoading()"
+        class="mt-8 flex w-full items-center justify-center rounded-lg bg-[#0f2c4c] px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-70 sm:text-base"
+      >
+        @if (isLoading()) {
+          <svg class="mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          Confirming...
+        } @else {
+          Confirm Booking
+        }
+      </button>
+    </form>
+  </div>
+</div>

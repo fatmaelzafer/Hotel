@@ -1,0 +1,43 @@
+@import "tailwindcss";
+/* In src/styles.css */
+
+
+
+
+/* 1. Reset and base font */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; /* Tailwind default, or import a specific font */
+  height: 100%;
+}
+
+/* 2. Custom utility class for full-screen hero backgrounds */
+*{
+  font-family:Inter;
+  font-style: Semi Bold;
+}
+.bgl {
+  background-image:  url('/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  width: 100%;
+  box-sizing: border-box;
+
+
+}
+
+.bg-h {
+  background-image:  linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.1));
+  background-size: cover;
+  background-position: center;
+
+
+}
+.f{
+  font-family:Inter;
+  font-size: xx-large;
+  font-weight:600px;
+}
