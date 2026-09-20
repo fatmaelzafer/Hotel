@@ -1,7 +1,7 @@
 
-export interface roomsearchresponse {
+export interface roomsearchresponse<t> {
   meta: Meta
-  data: roomsearch[]
+  data: t
 }
 
 export interface Meta {
@@ -11,16 +11,4 @@ export interface Meta {
   limit: number
 }
 
-export interface roomsearch {
-  _id: string
-  roomNumber: number
-  roomType: string
-  reservoirId: any
-  reservationFrom: any
-  reservationTo: any
-  price: number
-  roomCapacity: number
-  available: boolean
-  id: string
-  __v?: number
-}
+

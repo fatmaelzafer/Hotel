@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Roomsearch } from '../../../../../../core/services/search/roomsearch';
 import { roomsearchresponse } from '../../../../../../shared/models/search/search';
+import { room } from '../../../../../../shared/models/room/room';
 type OpenPanel = 'checkIn' | 'checkOut' | 'guests' | null;
 @Component({
   selector: 'app-mainhome',
@@ -40,7 +41,7 @@ export class Mainhome {
   readonly openPanel = signal<OpenPanel>(null);
   readonly isSearching = signal(false);
   readonly searchError = signal<string | null>(null);
-  rooms : WritableSignal<roomsearchresponse[]>=signal<roomsearchresponse[]>([]);
+  rooms : WritableSignal<room[]>=signal<room[]>([]);
   //@Output() readonly resultsFound = new EventEmitter<RoomSearchResult[]>();
 
   readonly checkInLabel = computed(() => this.checkIn() || 'Select Date');
@@ -78,13 +79,12 @@ export class Mainhome {
     this.closePanels();
     this.isSearching.set(true);
     this.searchError.set(null);
-
+    this.router.navigate(['/roomsearch',this.checkOut(),this.checkIn(),this.guests()]);
     this.roomsearch.getrooms(1,this.checkOut(),this.checkIn(),this.guests()).subscribe({
       next:(res)=>{
         console.log(res);
-        this.router.navigate(['/roomsearch',this.checkOut(),this.checkIn(),this.guests()]);
         this.isSearching.set(false);
-        this.rooms.set(res);
+        this.rooms.set(res.data);
       }
       ,error:(err)=>{
         this.isSearching.set(false);

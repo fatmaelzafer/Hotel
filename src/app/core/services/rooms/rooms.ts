@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.developing';
 import { room } from '../../../shared/models/room/room';
-import { roomsearch } from '../../../shared/models/search/search';
+
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,6 @@ export class Rooms {
     return  this.http.get<room[]>(this.apiUrl+'/rooms/all');
 
   }
- 
+
 
 }
