@@ -44,7 +44,6 @@ export const routes: Routes = [
         ],
       },
       { path: 'booking/:id', loadComponent: () => import('./features/pages/components/booking/booking/booking').then((c) => c.Booking) },
-      { path: 'bookingconfirm/:id', loadComponent: () => import('./features/pages/components/booking-confirmation/booking-confirmation').then((c) => c.BookingConfirmation) },
       {
         path: '',
         loadComponent: () => import('./core/layouts/components/userroom/userrooms/userrooms').then((c) => c.Userrooms),

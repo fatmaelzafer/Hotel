@@ -29,3 +29,6 @@ export interface PriceSummary {
   discount: number
   total: number
 }
+export interface StripeCheckoutResponse {
+  url: string;
+}

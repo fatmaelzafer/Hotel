@@ -175,14 +175,17 @@ export class Booking {
   }
   geturl(id: string) {
       this.bookingservice.getbookingdata(id).subscribe({
-        next: (res) => {
-          console.log(res);
-          window.location.href = res.url;
-
-        },
-        error: (err) => {
-          console.log(err);
-        },
+       next: (res) => {
+      if (isPlatformBrowser(this.platformid) && res?.url) {
+        window.location.href = res.url;
+      } else {
+        this.formError.set('Could not start the payment process. Please try again.');
+      }
+    },
+    error: (err) => {
+      console.log(err);
+      this.formError.set('Failed to load payment page. Please try again.');
+    },
       });
     }
 
