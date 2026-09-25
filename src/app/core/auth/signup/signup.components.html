@@ -252,7 +252,6 @@
                 <p class="mt-1 text-xs font-medium text-red-500">Password is required.</p>
               }@else {
                   <p class="mt-1 text-xs font-medium text-red-500">Invalid password.</p>
-                  <p class="mt-1 text-xs font-medium text-red-500">at least one lowercase, one uppercase, one digit, one symbol from @$!%*?&</p>
               }
 
             }
@@ -357,7 +356,7 @@
         }
       </button>
         </form>
-        <p class="mt-6 text-sm font-medium text-slate-700 dark:text-slate-400">Already have an account?</p>
+        <p class="mt-6 text-sm font-medium text-[#023A5D] ">Already have an account?</p>
     <button
       type="button"
       (click)="onLogin()"
@@ -365,6 +364,12 @@
     >
       Sign in
     </button>
+    @if(errormessage()){
+      <div class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+      {{errormessage()}}
+    </div>
+    }
+
       </div>
 
 </div>

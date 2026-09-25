@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment.developing';
+import { environment } from '../../../../environments/environment.development';
 import { room } from '../../../shared/models/room/room';
 
 
@@ -19,7 +19,10 @@ export class Rooms {
 
   }
   getrooms(page:number=1):Observable<room[]>{
-    return  this.http.get<room[]>(this.apiUrl+'/rooms/all');
+    const headers = new HttpHeaders({
+    'ngrok-skip-browser-warning': 'true',
+    });
+    return  this.http.get<room[]>(this.apiUrl+'/rooms/all',{headers});
 
   }
 

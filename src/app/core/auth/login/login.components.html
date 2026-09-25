@@ -147,7 +147,6 @@
               <input
                 id="rememberMe"
                 type="checkbox"
-                formControlName="rememberMe"
                 class="h-4 w-4 rounded border-slate-400 text-sky-700 focus:ring-2 focus:ring-sky-300"
               />
               <label for="rememberMe" class="ml-2 text-sm font-medium text-slate-700">
@@ -174,15 +173,6 @@
           }
 
           <!-- Success message -->
-          @if (successMessage()) {
-            <div
-              class="rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-sm font-medium text-green-700"
-              role="status"
-            >
-              {{ successMessage() }}
-            </div>
-          }
-
           <!-- Login button -->
           <button
             type="submit"

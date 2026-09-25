@@ -54,7 +54,7 @@
     <!-- Rooms grid -->
     @else if (!error() && rooms().length > 0) {
       <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-        @for (room of rooms() | paginate: { itemsPerPage: 10, currentPage: page }; track $index) {
+        @for (room of rooms() ; track $index) {
           <article class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
             <img
               src="/1.jpg"
@@ -62,15 +62,39 @@
             />
 
             <div class="flex flex-1 flex-col p-5">
-              <h3 class="text-lg font-bold text-[#0f2c4c]">Room Number {{ room.roomNumber }}</h3>
+              <h3 class="text-lg font-bold text-[#0f2c4c]">Room Number {{room.roomNumber}} </h3>
 
               <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
                 <span class="inline-flex items-center gap-1">
+                  <!-- <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="icons['guests']" />
+                  </svg> -->
                   {{ room.roomCapacity }} Guests
+                </span>
+                <!-- <span class="inline-flex items-center gap-1">
+                 room.bedType
+                </span>-->
+                <span class="inline-flex items-center gap-1">
+                  @if(room.available){
+                    <p class="text-green-500">Available</p>
+                  }
+                  @else {
+                    <p class="text-red-500">Not Available</p>
+                  }
                 </span>
               </div>
 
-              <ul class="mt-2 space-y-1.5"></ul>
+              <!-- <p class="mt-4 text-sm font-semibold text-slate-800">Amenities</p> -->
+              <!-- <ul class="mt-2 space-y-1.5">
+                @for (amenity of room.roomType.roomAdvantages; track $index) {
+                  <li class="flex items-center gap-2 text-sm text-slate-600"> -->
+                    <!-- <svg class="h-4 w-4 shrink-0 text-sky-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="icons[amenity.icon]" />
+                    </svg> -->
+
+                  <!-- </li>
+                }
+              </ul> -->
 
               <div class="mt-5 flex flex-1 items-end justify-between">
                 <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-[#0f2c4c]">
@@ -79,6 +103,7 @@
                 <button
                   type="button"
                   (click)="onSelect(room)"
+
                   class="rounded-full bg-sky-50 px-5 py-2 text-sm font-semibold text-[#0f2c4c] transition hover:bg-[#0f2c4c] hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-200"
                 >
                   Select
@@ -90,12 +115,8 @@
       </div>
 
       <!-- Pagination controls live once, after the grid — not inside the @for -->
-      <div class="mt-6 w-full">
-        <pagination-controls
-          (pageChange)="changepage($event)"
-          previousLabel="Prev"
-          nextLabel="Next"
-        ></pagination-controls>
+      <div class="mt-6 w-full ms-[40%]">
+
       </div>
     }
   </div>

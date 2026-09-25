@@ -66,23 +66,28 @@
                 </span>
                 <!-- <span class="inline-flex items-center gap-1">
                  room.bedType
-                </span>
+                </span>-->
                 <span class="inline-flex items-center gap-1">
-                  room.view
-                </span> -->
+                  @if(room.available){
+                    <p class="text-green-500">Available</p>
+                  }
+                  @else {
+                    <p class="text-red-500">Not Available</p>
+                  }
+                </span>
               </div>
-
+              
               <!-- <p class="mt-4 text-sm font-semibold text-slate-800">Amenities</p> -->
-              <ul class="mt-2 space-y-1.5">
-                <!-- @for (amenity of room.amenities; track amenity.label) {
-                  <li class="flex items-center gap-2 text-sm text-slate-600">
-                    <svg class="h-4 w-4 shrink-0 text-sky-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <!-- <ul class="mt-2 space-y-1.5">
+                @for (amenity of room.roomType.roomAdvantages; track $index) {
+                  <li class="flex items-center gap-2 text-sm text-slate-600"> -->
+                    <!-- <svg class="h-4 w-4 shrink-0 text-sky-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="icons[amenity.icon]" />
-                    </svg>
-                    {{ amenity.label }}
-                  </li>
-                } -->
-              </ul>
+                    </svg> -->
+
+                  <!-- </li>
+                }
+              </ul> -->
 
               <div class="mt-5 flex flex-1 items-end justify-between">
                 <span class="rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-[#0f2c4c]">
@@ -91,7 +96,7 @@
                 <button
                   type="button"
                   (click)="onSelect(room)"
-                  
+
                   class="rounded-full bg-sky-50 px-5 py-2 text-sm font-semibold text-[#0f2c4c] transition hover:bg-[#0f2c4c] hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-200"
                 >
                   Select
@@ -101,6 +106,7 @@
           </article>
         }
       </div>
+
     }
   </div>
 </section>

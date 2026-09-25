@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -10,6 +10,9 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { Router} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Auth } from '../services/authentication/auth';
+import { HttpErrorResponse } from '@angular/common/http';
 /**
  * Strongly-typed shape of the login form values.
  */
@@ -29,7 +32,7 @@ export interface LoginFormValue {
 export interface LoginRequestPayload {
   email: string;
   password: string;
-  rememberMe: boolean;
+
 }
 
 /**
@@ -51,30 +54,23 @@ export class LoginComponents {
   readonly showPassword = signal<boolean>(false);
   readonly formError = signal<string>('');
   readonly successMessage = signal<string>('');
-
+  private readonly authservice=inject(Auth);
+  errormessage:WritableSignal <string>=signal<string>('');
+  refSubscription:Subscription = new Subscription();
    loginform!: FormGroup;
   intaiform() {
     this.loginform = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g)]),
-
+      password: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z\d@$!%*?&]{6,}$/)]),
     },
     );
   }
   constructor(private readonly fb: FormBuilder,private readonly route:Router) {
-    this.loginform = this.fb.nonNullable.group({
-      email: this.fb.nonNullable.control('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: this.fb.nonNullable.control('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-      rememberMe: this.fb.nonNullable.control(false),
-    });
   }
+  ngOnInit(){
+    this.intaiform();
 
+  }
   /** Computed error message for the email field. */
   readonly emailErrorMessage = computed(() => {
     const control = this.loginform.get('email');
@@ -127,31 +123,39 @@ export class LoginComponents {
     this.formError.set('');
     this.successMessage.set('');
 
-    if (this.loginform.invalid) {
+    if (this.loginform.valid) {
+      this.isLoading.set(true);
+      this.refSubscription.unsubscribe();
+      this.refSubscription=this.authservice.sendloginrdata(this.loginform.value).subscribe({
+         next:(res)=>{
+          console.log(res);
+          this.isLoading.set(false);
+          this.errormessage.set('');
+          const token = res?.accessToken; // ← accessToken مش token
+          if (!token) {
+           this.errormessage.set('Login succeeded but no token was returned.');
+          return;
+            }
+
+          localStorage.setItem('userToken', token);
+          this.authservice.decodeUserToken();
+          setTimeout(()=>{
+              this.route.navigate(['/home']);
+          },1000);
+
+
+
+        },
+        error:(err:HttpErrorResponse)=>{
+          this.isLoading.set(false);
+          this.errormessage.set(err.error.message);
+        }
+      });}
+    else{
       this.loginform.markAllAsTouched();
       return;
     }
 
-    const value: LoginFormValue = this.loginform.getRawValue();
-    const payload: LoginRequestPayload = {
-      email: value.email,
-      password: value.password,
-      rememberMe: value.rememberMe,
-    };
-
-    this.isLoading.set(true);
-
-    // --- Simulated async authentication call ---
-    setTimeout(() => {
-      const result: LoginResult = this.simulateLogin(payload);
-      this.isLoading.set(false);
-
-      if (result.success) {
-        this.successMessage.set(result.message);
-      } else {
-        this.formError.set(result.message);
-      }
-    }, 1200);
   }
 
   /** Replace with a real HTTP call in production. */

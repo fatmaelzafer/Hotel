@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NavbarComponents } from "../../../../shared/components/navbar/navbar.components";
+
 import { RouterOutlet } from "@angular/router";
-import { FooterComponents } from "../../../../shared/components/footer/footer.components";
+
 
 @Component({
   selector: 'app-user-layout',
-  imports: [NavbarComponents, RouterOutlet, FooterComponents],
+  imports: [ RouterOutlet,],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.css',
 })

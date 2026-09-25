@@ -46,7 +46,6 @@ rooms: WritableSignal<room[]> = signal<room[]>([]);
 
     this.roomss.getrooms(this.page, this.checkOut, this.checkIn, this.guests).subscribe({
       next: (res) => {
-        console.log(res.data);
         // Fall back to an empty array whenever the backend returns
         // null/undefined for "no results" instead of an empty array —
         // this is what was crashing the @for/paginate pipe.

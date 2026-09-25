@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { room } from '../../../shared/models/room/room';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment.developing';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,11 @@ export class Room {
   constructor(private readonly http:HttpClient){
 
   }
-  getroombyid(id:string|null):Observable<room>{
-    return  this.http.get<room>(this.apiUrl+'/rooms/'+id);
+  getroombyid(id:string):Observable<room>{
+    const headers = new HttpHeaders({
+    'ngrok-skip-browser-warning': 'true',
+    });
+    return  this.http.get<room>(this.apiUrl+'/rooms/'+id,{headers});
 
   }
 }

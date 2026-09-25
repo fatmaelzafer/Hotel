@@ -47,7 +47,6 @@ export class RoomsPage {
 
     this.roomss.getrooms().subscribe({
       next: (res) => {
-        console.log(res);
         this.rooms.set(res);
         this.isLoading.set(false);
       },
@@ -67,5 +66,6 @@ export class RoomsPage {
   trackByRoomId(_index: number, room: room): string {
     return room.id;
   }
+
 }
 

@@ -82,7 +82,6 @@ export class Mainhome {
     this.router.navigate(['/roomsearch',this.checkOut(),this.checkIn(),this.guests()]);
     this.roomsearch.getrooms(1,this.checkOut(),this.checkIn(),this.guests()).subscribe({
       next:(res)=>{
-        console.log(res);
         this.isSearching.set(false);
         this.rooms.set(res.data);
       }

@@ -1,4 +1,4 @@
-
+@if(flag){
 <div class="relative flex min-h-screen w-full items-center justify-center overflow-hidden  px-4 py-8 sm:px-8 md:py-12">
   <!-- Background image -->
   <div class="absolute inset-0 -z-10">
@@ -12,10 +12,10 @@
 
   <!-- Booking form card -->
   <div class="w-full max-w-4xl rounded-2xl border border-white/40 bg-slate-100/70 p-5 shadow-2xl backdrop-blur-md sm:p-8 md:p-10">
-    <h1 class="text-xl font-serif font-semibold text-slate-800 sm:text-2xl md:text-3xl">
+    <h1 class="text-xl font-serif font-semibold text-[#023A5D] sm:text-2xl md:text-3xl">
       Complete Your Booking
     </h1>
-    <p class="mt-1.5 text-sm font-semibold text-slate-800 sm:text-base">
+    <p class="mt-1.5 text-sm font-semibold text-[#023A5D] sm:text-base">
       Review your details before confirming your reservation.
     </p>
 
@@ -25,19 +25,18 @@
         <div class="space-y-6">
           <!-- Your Stay -->
           <section>
-            <h2 class="text-lg font-serif font-semibold text-slate-800 sm:text-xl">Your Stay</h2>
+            <h2 class="text-lg font-serif font-semibold text-[#023A5D] sm:text-xl">Your Stay</h2>
 
             <div class="mt-3 space-y-4">
               <div>
-                <label for="roomName" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                <label for="roomName" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                   Room Number {{room()?.roomNumber}}
                 </label>
-
               </div>
 
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label for="checkIn" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  <label for="checkIn" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                     Check-in
                   </label>
                   <input
@@ -61,24 +60,24 @@
                 </div>
 
                 <div>
-                  <label for="checkOut" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                  <label for="checkOut" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                     Check-out
                   </label>
                   <input
                     id="checkOut"
                     type="date"
-                    formControlName="checkOut"
-                    [attr.min]="bookingForm.controls.checkIn.value"
-                    [attr.aria-invalid]="isInvalid('checkOut')"
-                    [attr.aria-describedby]="isInvalid('checkOut') ? 'checkOut-error' : null"
+                    formControlName="checkout"
+                    [attr.min]="bookingForm.get('checkIn')?.value"
+                    [attr.aria-invalid]="isInvalid('checkout')"
+                    [attr.aria-describedby]="isInvalid('checkout') ? 'checkOut-error' : null"
                     class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2"
                     [ngClass]="
-                      isInvalid('checkOut')
+                      isInvalid('checkout')
                         ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
                         : 'border-slate-300 focus:border-sky-500 focus:ring-sky-200'
                     "
                   />
-                  @if (isInvalid('checkOut')) {
+                  @if (isInvalid('checkout')) {
                     <p id="checkOut-error" class="mt-1 text-xs font-medium text-red-600" role="alert">
                       {{ checkOutErrorMessage() }}
                     </p>
@@ -87,10 +86,9 @@
               </div>
 
               <div>
-                <label for="guests" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                <label for="guests" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                   Guests {{room()?.roomCapacity}}
                 </label>
-
               </div>
             </div>
           </section>
@@ -101,39 +99,18 @@
 
             <div class="mt-3 space-y-4">
               <div>
-                <label for="nightlyRate" class="mb-1.5 block text-sm font-semibold text-slate-800">
+                <label for="nightlyRate" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                   Price per night {{room()?.price}}$
                 </label>
               </div>
 
-              <!-- <div>
-                <label for="discount" class="mb-1.5 block text-sm font-semibold text-slate-800">
-                  Discount ($, optional)
-                </label>
-                <input
-                  id="discount"
-                  type="number"
-                  min="0"
-                  step="1"
-                  formControlName="discount"
-                  placeholder="0"
-                  class="block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
-                />
-              </div> -->
-
               <!-- Computed breakdown -->
-              <div class="space-y-2 border-t border-slate-400/40 pt-3 text-sm text-slate-700 sm:text-base">
+              <div class="space-y-2 border-t border-slate-400/40 pt-3 text-sm text-[#023A5D] sm:text-base">
                 <div class="flex items-center justify-between">
-                  <span>{{ nights() }} night{{ nights() === 1 ? '' : 's' }} subtotal</span>
-                  <span>${{ subtotal() }}</span>
+                  <span>{{ nights() }} night{{ nights() === 1 ? '' : 's' }}</span>
                 </div>
-                @if (discountValue() > 0) {
-                  <div class="flex items-center justify-between text-red-600">
-                    <span>Discount</span>
-                    <span>-${{ discountValue() }}</span>
-                  </div>
-                }
-                <div class="flex items-center justify-between border-t border-slate-400/40 pt-2 font-semibold text-slate-900">
+
+                <div class="flex items-center justify-between border-t border-slate-400/40 pt-2 font-semibold text-[#023A5D]">
                   <span>Total</span>
                   <span>${{ total() }}</span>
                 </div>
@@ -144,12 +121,12 @@
 
         <!-- Right column: Guest Information -->
         <div>
-          <h2 class="text-lg font-serif font-semibold text-slate-800 sm:text-xl">Guest Information</h2>
+          <h2 class="text-lg font-serif font-semibold text-[#023A5D] sm:text-xl">Guest Information</h2>
 
           <div class="mt-3 space-y-4">
             <!-- Full Name -->
             <div>
-              <label for="fullName" class="mb-1.5 block text-sm font-semibold text-slate-800">
+              <label for="fullName" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                 Full Name
               </label>
               <input
@@ -160,7 +137,7 @@
                 autocomplete="name"
                 [attr.aria-invalid]="isInvalid('fullName')"
                 [attr.aria-describedby]="isInvalid('fullName') ? 'fullName-error' : null"
-                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-[#023A5D] placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
                 [ngClass]="
                   isInvalid('fullName')
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
@@ -176,7 +153,7 @@
 
             <!-- Email -->
             <div>
-              <label for="guest-email" class="mb-1.5 block text-sm font-semibold text-slate-800">
+              <label for="guest-email" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                 Email
               </label>
               <input
@@ -187,7 +164,7 @@
                 autocomplete="email"
                 [attr.aria-invalid]="isInvalid('email')"
                 [attr.aria-describedby]="isInvalid('email') ? 'guest-email-error' : null"
-                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-[#023A5D] placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
                 [ngClass]="
                   isInvalid('email')
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
@@ -203,7 +180,7 @@
 
             <!-- Phone -->
             <div>
-              <label for="guest-phone" class="mb-1.5 block text-sm font-semibold text-slate-800">
+              <label for="guest-phone" class="mb-1.5 block text-sm font-semibold text-[#023A5D]">
                 Phone
               </label>
               <input
@@ -214,7 +191,7 @@
                 autocomplete="tel"
                 [attr.aria-invalid]="isInvalid('phone')"
                 [attr.aria-describedby]="isInvalid('phone') ? 'guest-phone-error' : null"
-                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
+                class="block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-[#023A5D] placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2"
                 [ngClass]="
                   isInvalid('phone')
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
@@ -230,15 +207,15 @@
 
             <!-- Special Requests -->
             <div>
-              <label for="specialRequests" class="mb-1.5 block text-base font-serif font-semibold text-slate-800">
-                Special Requests <span class="text-sm font-sans font-normal text-slate-600">(Optional)</span>
+              <label for="specialRequests" class="mb-1.5 block text-base font-serif font-semibold text-[#023A5D]">
+                Special Requests <span class="text-sm font-sans font-normal text-[#023A5D]">(Optional)</span>
               </label>
               <textarea
                 id="specialRequests"
                 formControlName="specialRequests"
                 rows="2"
                 placeholder="Anything you'd like us to know?"
-                class="block w-full resize-none rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                class="block w-full resize-none rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-[#023A5D] placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
               ></textarea>
             </div>
 
@@ -246,13 +223,6 @@
             @if (formError()) {
               <div class="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-700" role="alert">
                 {{ formError() }}
-              </div>
-            }
-
-            <!-- Success message -->
-            @if (successMessage()) {
-              <div class="rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-sm font-medium text-green-700" role="status">
-                {{ successMessage() }}
               </div>
             }
           </div>
@@ -278,3 +248,80 @@
     </form>
   </div>
 </div>
+
+}
+@else {
+<div class="relative flex min-h-screen w-full items-center justify-center overflow-hidden  px-4 py-10 sm:px-8">
+  <!-- Background image -->
+  <div class="absolute inset-0 -z-10">
+    <img
+      src="/hero.jpg"
+      alt="Nile View Suites at dusk"
+      class="h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-slate-900/20"></div>
+  </div>
+
+  <!-- Confirmation card -->
+  <div class="w-full max-w-md rounded-2xl border border-white/40 bg-slate-100/70 text-[#023A5D] p-6 text-center shadow-2xl backdrop-blur-md sm:p-8">
+    <!-- Success checkmark -->
+    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 sm:h-14 sm:w-14">
+      <svg class="h-6 w-6 text-emerald-600 sm:h-7 sm:w-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+
+    <h1 class="mt-4 font-serif text-xl font-semibold text-[#023A5D] sm:text-2xl">
+      Booking Confirmed!
+    </h1>
+    <p class="mt-1.5 text-sm text-slate-700 sm:text-base">
+      Your reservation has been successfully confirmed.
+    </p>
+
+    <!-- Booking details card -->
+    <div class="mt-6 rounded-xl bg-white p-5 text-left shadow-sm sm:p-6">
+      <h2 class="font-serif text-lg font-semibold text-[#023A5D] sm:text-xl">
+        {{ booking().priceSummary.roomName }}
+      </h2>
+
+      <ul class="mt-3 space-y-2 text-sm text-[#023A5D] sm:text-base">
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-slate-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          </svg>
+          {{ dateRangeLabel()}}
+        </li>
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-slate-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+          {{ booking().stay.guests }} {{ booking().stay.guests === 1 ? 'Guest' : 'Guests' }}
+        </li>
+        <li class="flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-slate-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+          {{ booking().priceSummary.nights }} {{ booking().priceSummary.nights === 1 ? 'Night' : 'Nights' }}
+        </li>
+      </ul>
+
+      <!-- <h3 class="mt-5 font-serif text-base font-semibold text-slate-800 sm:text-lg">
+        Booking Reference
+      </h3>
+      <p class="mt-1 text-sm text-slate-700 sm:text-base">
+        {{ booking().bookingReference }}
+      </p> -->
+    </div>
+
+    <!-- Back to home -->
+    <button
+      type="button"
+      (click)="onBackToHome()"
+      class="mt-6 w-full rounded-lg bg-[#0f2c4c] px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#123356] focus:outline-none focus:ring-4 focus:ring-sky-300 sm:text-base"
+    >
+      Back to Home
+    </button>
+  </div>
+</div>
+
+}

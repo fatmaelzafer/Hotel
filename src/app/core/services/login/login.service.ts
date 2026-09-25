@@ -3,7 +3,7 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { flush } from '@angular/core/testing';
 import { isPlatformBrowser } from '@angular/common';
-import { environment } from '../../../../environments/environment.developing';
+import { environment } from '../../../../environments/environment.development';
 //import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
