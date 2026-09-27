@@ -148,6 +148,7 @@ export class LoginComponents {
         },
         error:(err:HttpErrorResponse)=>{
           this.isLoading.set(false);
+          console.log(err);
           this.errormessage.set(err.error.message);
         }
       });}

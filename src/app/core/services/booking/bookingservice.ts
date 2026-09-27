@@ -17,5 +17,5 @@ export class Bookingservice {
 
     return this.httpClient.post<any>(this.apiUrl+'/rooms/confirm',userdata, { headers });
   }
-  
+
 }

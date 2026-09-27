@@ -49,10 +49,12 @@ export class RoomsPage {
     this.roomss.getrooms().subscribe({
       next: (res) => {
         this.rooms.set(res);
+        console.log(res);
         this.isLoading.set(false);
       },
       error: (err) => {
         this.error.set('We couldn\'t load the rooms. Please try again.');
+        console.log(err);
         this.isLoading.set(false);
       },
     });
