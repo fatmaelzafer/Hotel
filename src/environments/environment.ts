@@ -1,4 +1,3 @@
 export const environment = {
-  production: true,
-    apiUrl:'/api',
+    apiUrl:'https://handsaw-lubricant-yogurt.ngrok-free.dev',
 };
