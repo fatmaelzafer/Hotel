@@ -60,10 +60,14 @@ export class RoomsPage {
 
   onSelect(room: room): void {
   if (isPlatformBrowser(this.platformId)) {
-    this.router.navigate(['/booking', room._id]);
+
+    if(localStorage.getItem('userToken') === null)
+      this.router.navigate(['/login']);
+    else
+      this.router.navigate(['/booking', room._id]);
+
+
   }
-  else
-     this.router.navigate(['/login']);
 
   }
 

@@ -1,19 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "dist/e-commerce/server/server.mjs",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "dist/e-commerce/browser/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/e-commerce/server/server.mjs"
+      "source": "/api/:path*",
+      "destination": "https://handsaw-lubricant-yogurt.ngrok-free.dev/:path*"
     }
   ]
 }

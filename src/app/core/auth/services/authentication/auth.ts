@@ -14,17 +14,14 @@ export class Auth {
     return this.httpClient.post<any>(this.apiUrl+'/auth/signup/',userdata);
   }
   sendloginrdata(userdata:object ):Observable<any>{
-    const headers = new HttpHeaders({
-    'ngrok-skip-browser-warning': 'true',
-    });
-    return this.httpClient.post<any>(this.apiUrl+'/auth/signin/',userdata,{headers});
+    return this.httpClient.post<any>(this.apiUrl+'/auth/signin/',userdata);
   }
   decodeUserToken(){
     if(localStorage.getItem('userToken')){
       const token = localStorage.getItem('userToken')!;
     const decoded = jwtDecode(token);
 
-    console.log(decoded);
+    //console.log(decoded);
     }
 
   }
