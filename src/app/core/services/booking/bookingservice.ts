@@ -17,12 +17,5 @@ export class Bookingservice {
 
     return this.httpClient.post<any>(this.apiUrl+'/rooms/confirm',userdata, { headers });
   }
-  getbookingdata(id: string | null): Observable<any> {
-    const accessToken = localStorage.getItem('userToken');
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${accessToken}`,
-  });
-
-  return this.httpClient.get<any>(this.apiUrl + '/rooms/confirm-stripe/' + id,{ headers });
-}
+  
 }
