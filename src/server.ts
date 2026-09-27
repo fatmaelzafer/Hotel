@@ -6,17 +6,11 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
-app.use('/api', createProxyMiddleware({
-  target: 'https://handsaw-lubricant-yogurt.ngrok-free.dev',
-  changeOrigin: true,
-  pathRewrite: { '^/api': '' },
-  headers: { 'ngrok-skip-browser-warning': 'true' },
-}));
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.

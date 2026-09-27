@@ -14,7 +14,10 @@ export class Auth {
     return this.httpClient.post<any>(this.apiUrl+'/auth/signup/',userdata);
   }
   sendloginrdata(userdata:object ):Observable<any>{
-    return this.httpClient.post<any>(this.apiUrl+'/auth/signin/',userdata);
+    const headers = new HttpHeaders({
+    'ngrok-skip-browser-warning': 'true',
+    });
+    return this.httpClient.post<any>(this.apiUrl+'/auth/signin/',userdata,{headers});
   }
   decodeUserToken(){
     if(localStorage.getItem('userToken')){
