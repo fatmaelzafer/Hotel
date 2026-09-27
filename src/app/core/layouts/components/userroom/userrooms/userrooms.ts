@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { NavbarComponents } from '../../../../../shared/components/navbar/navbar.components';
 import { FooterComponents } from '../../../../../shared/components/footer/footer.components';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-guestroom',
-  imports: [RouterOutlet, NavbarComponents, FooterComponents],
-  templateUrl: './guestroom.html',
-  styleUrl: './guestroom.css',
+  selector: 'app-userrooms',
+  imports: [NavbarComponents, FooterComponents, RouterOutlet],
+  templateUrl: './userrooms.html',
+  styleUrl: './userrooms.css',
 })
-export class Guestroom {
+export class Userrooms {
 
 }

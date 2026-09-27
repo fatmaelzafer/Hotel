@@ -1,6 +1,6 @@
 
-import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, WritableSignal, inject, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { Rooms } from '../../../../core/services/rooms/rooms';
 import { room } from '../../../../shared/models/room/room';
@@ -19,6 +19,7 @@ export class RoomsPage {
   readonly isLoading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
   private readonly roomss=inject(Rooms);
+  private readonly  platformId = inject(PLATFORM_ID);
   //
   // SVG path data for each icon, keyed by name. Kept as plain outline strokes
   // (viewBox 0 0 24 24) so every icon in the card renders the same weight/size.
@@ -47,25 +48,28 @@ export class RoomsPage {
 
     this.roomss.getrooms().subscribe({
       next: (res) => {
-        console.log(res);
         this.rooms.set(res);
         this.isLoading.set(false);
       },
       error: (err) => {
         this.error.set('We couldn\'t load the rooms. Please try again.');
-        console.log(err);
         this.isLoading.set(false);
       },
     });
   }
 
   onSelect(room: room): void {
-     this.router.navigate(['/booking', room._id])
-    //this.roomsService.selectRoom(room.id);
+  if (isPlatformBrowser(this.platformId)) {
+    this.router.navigate(['/booking', room._id]);
+  }
+  else
+     this.router.navigate(['/login']);
+
   }
 
   trackByRoomId(_index: number, room: room): string {
     return room.id;
   }
+
 }
 

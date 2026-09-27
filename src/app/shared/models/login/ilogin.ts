@@ -1,5 +1,8 @@
 export interface Ilogin {
   email: string| null| undefined;
   password: string| null| undefined;
-  token:string;
+}
+export interface Iloginresult {
+  accessToken: string
+  refreshToken: string
 }

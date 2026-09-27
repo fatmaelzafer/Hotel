@@ -79,10 +79,10 @@ export class Mainhome {
     this.closePanels();
     this.isSearching.set(true);
     this.searchError.set(null);
-    this.router.navigate(['/roomsearch',this.checkOut(),this.checkIn(),this.guests()]);
+
     this.roomsearch.getrooms(1,this.checkOut(),this.checkIn(),this.guests()).subscribe({
       next:(res)=>{
-        console.log(res);
+        this.router.navigate(['/roomsearch',this.checkOut(),this.checkIn(),this.guests()]);
         this.isSearching.set(false);
         this.rooms.set(res.data);
       }
@@ -91,28 +91,6 @@ export class Mainhome {
           this.searchError.set('Search failed. Please try again.');
       }
     })
-    /*this.roomsSearchService
-      .searchRooms({
-        roomType: this.roomType,
-        capacity: this.guests() ?? 1,
-        minPrice: this.minPrice,
-        maxPrice: this.maxPrice,
-      })
-      .subscribe({
-        next: (rooms) => {
-          this.isSearching.set(false);
-          this.resultsFound.emit(rooms);
-        },
-        error: () => {
-          this.isSearching.set(false);
-          this.searchError.set('Search failed. Please try again.');
-        },
-      });*/
-  }
 
-/*
-   onl:boolean=false;
-  inl(){
-    this.onl=!this.onl;
-  }*/
+  }
 }

@@ -7,6 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Auth } from '../services/authentication/auth';
+import { HttpErrorResponse } from '@angular/common/http';
 export interface signupFormValue {
   first_name: string| null| undefined;
   last_name: string| null| undefined;
@@ -29,6 +30,7 @@ export class SignupComponents {
   readonly isloading = signal<boolean>(false);
   readonly showPassword = signal<boolean>(false);
   readonly rshowPassword = signal<boolean>(false);
+  errormessage:WritableSignal <string>=signal<string>('');
   constructor(private readonly route:Router,){}
   authsubscribe !:Subscription;
   confirmPassword(group:AbstractControl){
@@ -63,7 +65,7 @@ export class SignupComponents {
     this.signupform1 = new FormGroup({
       userName: new FormControl('',[Validators.required]),
       email: new FormControl('',[Validators.required,Validators.email]),
-      password: new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z\d@$!%*?&]{8,}$/)]),
+      password: new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z\d@$!%*?&]{6,}$/)]),
       phone: new FormControl('', [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]),
       nationality: new FormControl('',[Validators.required]),
     }
@@ -89,16 +91,21 @@ export class SignupComponents {
 
     if(this.signupform.valid){
       this.makingsignupform();
-      console.log(this.signupform1);
+      //console.log(this.signupform1);
       this.isloading.set(true);
       this.authsubscribe =this.auth.sendregisterdata(this.signupform1.value).subscribe({
         next:(res)=>{
           console.log(res);
           this.isloading.set(false);
-        this.route.navigate(['/home']);
-        },
-        error:(err)=>{
+          this.errormessage.set('');
+          setTimeout(()=>{
+              this.route.navigate(['/login']);
+          },1000);
 
+        },
+        error:(err:HttpErrorResponse)=>{
+          this.isloading.set(false);
+          this.errormessage.set(err.error.message);
         }
       });
 

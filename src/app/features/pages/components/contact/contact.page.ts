@@ -1,9 +1,9 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Rooms } from '../../../../core/services/rooms/rooms';
 import { room } from '../../../../shared/models/room/room';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { roomsearchresponse } from '../../../../shared/models/search/search';
 import { Roomsearch } from '../../../../core/services/search/roomsearch';
 @Component({
@@ -17,7 +17,7 @@ rooms: WritableSignal<room[]> = signal<room[]>([]);
   readonly isLoading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
   private readonly roomss = inject(Roomsearch);
-
+  private readonly  platformId = inject(PLATFORM_ID);
   checkIn: string | null = null;
   checkOut: string | null = null;
   guests: number | null = null;
@@ -46,7 +46,6 @@ rooms: WritableSignal<room[]> = signal<room[]>([]);
 
     this.roomss.getrooms(this.page, this.checkOut, this.checkIn, this.guests).subscribe({
       next: (res) => {
-        console.log(res.data);
         // Fall back to an empty array whenever the backend returns
         // null/undefined for "no results" instead of an empty array —
         // this is what was crashing the @for/paginate pipe.
@@ -54,7 +53,7 @@ rooms: WritableSignal<room[]> = signal<room[]>([]);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.log(err);
+        
         this.error.set("We couldn't load the rooms. Please try again.");
         this.isLoading.set(false);
       },
@@ -62,7 +61,11 @@ rooms: WritableSignal<room[]> = signal<room[]>([]);
   }
 
   onSelect(room: room): void {
+    if (isPlatformBrowser(this.platformId)) {
     this.router.navigate(['/booking', room._id]);
+  }
+  else
+     this.router.navigate(['/login']);
   }
 
   trackByRoomId(_index: number, room: room): string {

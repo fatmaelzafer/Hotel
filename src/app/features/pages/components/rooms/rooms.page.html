@@ -50,7 +50,7 @@
         @for (room of rooms(); track $index) {
           <article class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
             <img
-              src="/1.jpg"
+              src="/room.jpg"
               class="h-48 w-full object-cover"
             />
 
@@ -66,10 +66,15 @@
                 </span>
                 <!-- <span class="inline-flex items-center gap-1">
                  room.bedType
-                </span>
+                </span>-->
                 <span class="inline-flex items-center gap-1">
-                  room.view
-                </span> -->
+                  @if(room.available){
+                    <p class="text-green-500">Available</p>
+                  }
+                  @else {
+                    <p class="text-red-500">Not Available</p>
+                  }
+                </span>
               </div>
 
               <!-- <p class="mt-4 text-sm font-semibold text-slate-800">Amenities</p> -->
@@ -91,7 +96,7 @@
                 <button
                   type="button"
                   (click)="onSelect(room)"
-                  
+
                   class="rounded-full bg-sky-50 px-5 py-2 text-sm font-semibold text-[#0f2c4c] transition hover:bg-[#0f2c4c] hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-200"
                 >
                   Select
@@ -101,6 +106,7 @@
           </article>
         }
       </div>
+
     }
   </div>
 </section>

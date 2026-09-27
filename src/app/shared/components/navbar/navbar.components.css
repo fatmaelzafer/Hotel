@@ -3,5 +3,10 @@
   background-size: cover;
   background-position: center;
 
+}
+.bg-h1 {
+  background-image:  linear-gradient(rgba(253, 250, 250, 0.5), rgba(251, 246, 246, 0.1));
+  background-size: cover;
+  background-position: center;
 
 }
