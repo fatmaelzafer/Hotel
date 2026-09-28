@@ -75,7 +75,7 @@ export class SignupComponents {
    const control21 = this.signupform.get('last_name');
    const control3 = this.signupform.get('email');
    const control4 = this.signupform.get('password');
-   const c=control2?.value+control21?.value;
+   const c=control2?.value+' '+control21?.value;
     this.signupform1.setValue({
       userName:c,
       email:control3?.value,
@@ -95,7 +95,7 @@ export class SignupComponents {
       this.isloading.set(true);
       this.authsubscribe =this.auth.sendregisterdata(this.signupform1.value).subscribe({
         next:(res)=>{
-          console.log(res);
+          //console.log(res);
           this.isloading.set(false);
           this.errormessage.set('');
           setTimeout(()=>{

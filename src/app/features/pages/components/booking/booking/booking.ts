@@ -221,9 +221,9 @@ export class Booking {
       },
       error: (err) => {
         this.isLoading.set(false);
-         console.log(JSON.stringify(localStorage.getItem('userToken')));
+         //console.log(JSON.stringify(localStorage.getItem('userToken')));
 
-        console.log(payload);
+        //console.log(payload);
         this.formError.set(err.error?.message ?? 'Booking failed. Please try again.');
       },
     });
